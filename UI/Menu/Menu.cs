@@ -1,8 +1,11 @@
-﻿namespace NA.UI.Menu;
+﻿using NA.UI.Blocks;
+using NA.UI.Design;
 
-public static class Menu
+namespace NA.UI.Menu;
+
+public static class Screen
 {
-    public static void Generate(List<Option> options)
+    public static void Generate(List<Option> options, IBlock block)
     {
         ConsoleKeyInfo keyInfo;
         int i = 0;
@@ -28,19 +31,30 @@ public static class Menu
             }
         } while (keyInfo.Key != ConsoleKey.X);
 
-        Console.WriteLine("OUT");
 
         void Draw(Option selectedOption)
         {
             Console.Clear();
 
+            block.Show();
+
             foreach (Option option in options)
             {
-                if (option == selectedOption) Console.Write("> ");
-                else Console.Write(" ");
+                if (option == selectedOption)
+                {
+                    ColorText.WriteWithForeground("> ", ConsoleColor.Green, false);
+                    ColorText.WriteWithForeground(option.Name, ConsoleColor.Green, true);
+                    continue;
+                }
 
-                Console.WriteLine(option.Name);
+                Console.Write(" ");
+                ColorText.WriteWithForeground(option.Name, ConsoleColor.White, true);
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("-----");
+            Console.WriteLine("You can move up and down the navegation menu's by using your arrow up and down keys, and ENTER to make a choice");
         }
     }
 }
