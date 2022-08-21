@@ -1,21 +1,19 @@
 ﻿namespace NA.GameRuntime;
 
-using NA.UI.Blocks;
-using NA.UI.Menu;
+using NA.GamePlay.Screen;
 
 public static class GameRuntime
 {
     public static void Start()
     {
-        
         Console.Title = "Nostalgia Adventure";
 
-        List<Option> options = new List<Option>
-        {
-            new Option("Start Game", () => Console.WriteLine("STARTING GAME")),
-            new Option("Exit", () => Environment.Exit(0))
-        };
+        IScreen? screen = null;
 
-        Screen.Generate(options, new NormalBlock { ContentType = ContentType.START });
+        while (true)
+        {
+            screen = ScreenGenerator.Generate(screen);
+            screen.Load();
+        }
     }
 }
