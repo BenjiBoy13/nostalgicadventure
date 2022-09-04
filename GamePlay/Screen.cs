@@ -1,4 +1,5 @@
-﻿using NA.UI.Blocks;
+﻿using NA.Game.Entity;
+using NA.UI.Blocks;
 using NA.UI.Design;
 
 namespace NA.GamePlay.Screen;
@@ -15,10 +16,13 @@ public abstract class ChoiceScreen : IScreen
 
     public abstract List<Option> Options { get; init; }
 
-    public ChoiceScreen(IBlock block, List<Option> options)
+    public abstract Player Player { get; init; }
+
+    public ChoiceScreen(IBlock block, List<Option> options, Player player)
     {
         Options = options;
         Block = block;
+        Player = player;
     }
 
     public virtual void Load()
@@ -82,13 +86,16 @@ public abstract class InputScreen : IScreen
 
     public abstract string Question { get; init; }
 
+    public abstract Player Player { get; init; }
+
     public abstract string Answer { get; protected set; }
 
-    public InputScreen(IBlock block, string question)
+    public InputScreen(IBlock block, string question, Player player)
     {
         Block = block;
         Question = question;
         Answer = "";
+        Player = player;
     }
 
     public virtual void Load()
@@ -115,11 +122,14 @@ public sealed class StartInputScreen : InputScreen, IScreen
 
     public override string Answer { get; protected set; }
 
-    public StartInputScreen(IBlock block, string question) : base(block, question)
+    public override Player Player { get; init; }
+
+    public StartInputScreen(IBlock block, string question, Player player) : base(block, question, player)
     {
         Block = block;
         Question = question;
         Answer = "";
+        Player = player;
     }
 
     public override void Load()
@@ -130,6 +140,8 @@ public sealed class StartInputScreen : InputScreen, IScreen
 
         Console.Write(Question + ": \t");
         Answer = Console.ReadLine() ?? throw new Exception("Must enter an answer");
+        
+        Player.Name = Answer;
 
         Console.WriteLine("");
         Console.WriteLine($"Press ENTER to start {Answer}'s adventure");
@@ -143,10 +155,29 @@ public sealed class StartScreen : ChoiceScreen, IScreen
 
     public override List<Option> Options { get; init; }
 
-    public StartScreen(IBlock block, List<Option> options) : base(block, options)
+    public override Player Player { get; init; }
+
+    public StartScreen(IBlock block, List<Option> options, Player player) : base(block, options, player)
     {
         Block = block;
         Options = options;
+        Player = player;
+    }
+}
+
+public sealed class BasicChoiceScreen : ChoiceScreen, IScreen
+{
+    public override IBlock Block { get; init; }
+
+    public override List<Option> Options { get; init; }
+
+    public override Player Player { get; init; }
+
+    public BasicChoiceScreen(IBlock block, List<Option> options, Player player) : base(block, options, player)
+    {
+        Block = block;
+        Options = options;
+        Player = player;
     }
 }
 

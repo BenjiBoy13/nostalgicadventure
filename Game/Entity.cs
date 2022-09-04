@@ -2,7 +2,7 @@
 
 public abstract class Entity : Game
 {
-    public abstract string Name { get; init; }
+    public abstract string Name { get; set; }
 
     public abstract string Description { get; init; }
 

@@ -28,3 +28,22 @@ public class NormalBlock : IBlock
         }
     }
 }
+
+public class CustomBlock : IBlock
+{
+    public ContentType ContentType { get; init; }
+
+    public string Content{ get; init; }
+
+    public void Show()
+    {
+        switch (ContentType)
+        {
+            case ContentType.CHARACTER_CUSTOMIZATION:
+                Console.WriteLine("-- Customize your character --");
+                Console.WriteLine(Content);
+                Console.WriteLine("");
+                break;
+        }
+    }
+}

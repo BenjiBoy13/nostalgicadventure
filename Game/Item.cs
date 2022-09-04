@@ -2,7 +2,7 @@
 
 public sealed class Weapon : Item
 {
-    public override string Name { get; init; }
+    public override string Name { get; set; }
 
     public override string Description { get; init; }
 
